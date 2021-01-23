@@ -1,5 +1,6 @@
 package com.poupa.vinylmusicplayer.ui.fragments.player.card;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -7,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialValueHelper;
 import com.kabouzeid.appthemehelper.util.TintHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;
 import com.poupa.vinylmusicplayer.helper.MusicProgressViewUpdateHelper;
 import com.poupa.vinylmusicplayer.helper.PlayPauseButtonOnClickHandler;
@@ -25,11 +29,16 @@ import com.poupa.vinylmusicplayer.misc.SimpleOnSeekbarChangeListener;
 import com.poupa.vinylmusicplayer.service.MusicService;
 import com.poupa.vinylmusicplayer.ui.fragments.AbsMusicServiceFragment;
 import com.poupa.vinylmusicplayer.util.MusicUtil;
+import com.poupa.vinylmusicplayer.util.PreferenceUtil;
 import com.poupa.vinylmusicplayer.views.PlayPauseDrawable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.github.zarandya.beatrate.ui.TargetRateSettingsActivity;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)
@@ -55,6 +64,9 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
     TextView songTotalTime;
     @BindView(R.id.player_song_current_progress)
     TextView songCurrentProgress;
+    
+    @BindView(R.id.target_rate_spinner)
+    Spinner targetRateSpinner;
 
     private PlayPauseDrawable playerFabPlayPauseDrawable;
 
@@ -122,6 +134,11 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
         updateShuffleState();
     }
 
+    @Override
+    public void onTargetBeatChanged() {
+        updateTargetBeatState();
+    }
+
     public void setDark(boolean dark) {
         if (dark) {
             lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(getActivity(), true);
@@ -168,6 +185,7 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
         setUpRepeatButton();
         setUpShuffleButton();
         setUpProgressSlider();
+        setUpTargetBeatButton();
     }
 
     private void setUpPrevNext() {
@@ -220,6 +238,49 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
                 repeatButton.setImageResource(R.drawable.ic_repeat_one_white_24dp);
                 repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN);
                 break;
+        }
+    }
+    
+    private static final String BEATRATE_DISABLED = "OFF";
+    private static final String BEATRATE_EDIT_TARGETS = "EDIT";
+
+    private void setUpTargetBeatButton() {
+        // TODO
+        ArrayList<Object> items = new ArrayList<>(PreferenceUtil.getInstance().getTargetRates());
+        items.add(0, BEATRATE_DISABLED);
+        items.add(BEATRATE_EDIT_TARGETS);
+        ArrayAdapter adapter = new ArrayAdapter<Object>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
+        targetRateSpinner.setAdapter(adapter);
+        targetRateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Object item = parent.getItemAtPosition(position);
+                if (item == BEATRATE_DISABLED) {
+                    MusicPlayerRemote.setTargetBeat(false, 0);
+                }
+                else if (item == BEATRATE_EDIT_TARGETS) {
+                    Intent intent = new Intent(requireContext(), TargetRateSettingsActivity.class);
+                    startActivity(intent);
+                    updateTargetBeatState();
+                }
+                else if (item instanceof Double) {
+                    MusicPlayerRemote.setTargetBeat(true, (Double) item);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void updateTargetBeatState() {
+        if (MusicPlayerRemote.isTargetBeatEnabled()) {
+            targetRateSpinner.setSelection(PreferenceUtil.getInstance().getTargetRates().indexOf(MusicPlayerRemote.getTargetBeat()) + 1);
+        }
+        else {
+            targetRateSpinner.setSelection(0);
         }
     }
 

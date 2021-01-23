@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.request.transition.Transition;
 import com.kabouzeid.appthemehelper.util.ATHUtil;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.glide.palette.BitmapPaletteTarget;
 import com.poupa.vinylmusicplayer.glide.palette.BitmapPaletteWrapper;
 import com.poupa.vinylmusicplayer.util.VinylMusicPlayerColorUtil;

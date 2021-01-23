@@ -16,7 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.AlbumCoverPagerAdapter;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;
 import com.poupa.vinylmusicplayer.helper.MusicProgressViewUpdateHelper;

@@ -7,8 +7,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Point;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.Display;
@@ -21,7 +19,7 @@ import androidx.annotation.AttrRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)
@@ -92,6 +90,8 @@ public class Util {
     }
 
     public static boolean isAllowedToDownloadMetadata(final Context context) {
+        return false;
+        /*
         switch (PreferenceUtil.getInstance().autoDownloadImagesPolicy()) {
             case "always":
                 return true;
@@ -103,5 +103,6 @@ public class Util {
             default:
                 return false;
         }
+         */
     }
 }

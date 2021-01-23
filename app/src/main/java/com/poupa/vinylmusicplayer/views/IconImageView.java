@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.kabouzeid.appthemehelper.util.ATHUtil;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

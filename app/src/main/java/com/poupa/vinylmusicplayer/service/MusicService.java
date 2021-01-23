@@ -28,6 +28,7 @@ import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +36,7 @@ import androidx.annotation.Nullable;
 import androidx.media.MediaBrowserServiceCompat;
 
 import com.bumptech.glide.request.transition.Transition;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.appwidgets.AppWidgetBig;
 import com.poupa.vinylmusicplayer.appwidgets.AppWidgetCard;
 import com.poupa.vinylmusicplayer.appwidgets.AppWidgetClassic;
@@ -76,6 +77,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
 
     public static final String VINYL_MUSIC_PLAYER_PACKAGE_NAME = "com.poupa.vinylmusicplayer";
     public static final String MUSIC_PACKAGE_NAME = "com.android.music";
+    public static final String BEATRATE_PACKAGE_NAME = "io.github.zarandya.beatrate";
 
     public static final String ACTION_TOGGLE_PAUSE = VINYL_MUSIC_PLAYER_PACKAGE_NAME + ".togglepause";
     public static final String ACTION_PLAY = VINYL_MUSIC_PLAYER_PACKAGE_NAME + ".play";
@@ -102,6 +104,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
     public static final String REPEAT_MODE_CHANGED = VINYL_MUSIC_PLAYER_PACKAGE_NAME + ".repeatmodechanged";
     public static final String SHUFFLE_MODE_CHANGED = VINYL_MUSIC_PLAYER_PACKAGE_NAME + ".shufflemodechanged";
     public static final String MEDIA_STORE_CHANGED = VINYL_MUSIC_PLAYER_PACKAGE_NAME + ".mediastorechanged";
+    public static final String TARGET_BEAT_CHANGED = BEATRATE_PACKAGE_NAME + ".targetbeatchanged";
 
     public static final String CYCLE_REPEAT = VINYL_MUSIC_PLAYER_PACKAGE_NAME + ".cyclerepeat";
     public static final String TOGGLE_SHUFFLE = VINYL_MUSIC_PLAYER_PACKAGE_NAME + ".toggleshuffle";
@@ -150,6 +153,8 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
     private int repeatMode;
     private boolean queuesRestored;
     private boolean pausedByTransientLossOfFocus;
+    private boolean targetBeatEnabled;
+    private double targetBeat;
     private PlayingNotification playingNotification;
     private AudioManager audioManager;
     @SuppressWarnings("deprecation")
@@ -383,8 +388,10 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
     private void restoreState() {
         shuffleMode = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_SHUFFLE_MODE, 0);
         repeatMode = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_REPEAT_MODE, 0);
+        targetBeatEnabled = false;
         handleAndSendChangeInternal(SHUFFLE_MODE_CHANGED);
         handleAndSendChangeInternal(REPEAT_MODE_CHANGED);
+        handleAndSendChangeInternal(TARGET_BEAT_CHANGED);
 
         playerHandler.removeMessages(RESTORE_QUEUES);
         playerHandler.sendEmptyMessage(RESTORE_QUEUES);
@@ -474,10 +481,26 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
         synchronized (this) {
             try {
                 applyReplayGain();
-                return playback.setDataSource(getTrackUri(getCurrentSong()));
+                Song song = getCurrentSong();
+                if (playback.setDataSource(getTrackUri(song))) {
+                    setTargetSpeedForPlayback(song);
+                    return true;
+                }
+                return false;
             } catch (Exception e) {
                 return false;
             }
+        }
+    }
+
+    private void setTargetSpeedForPlayback(Song song) {
+        if (isTargetBeatEnabled()) {
+            double targetBpm = targetBeat * (double) ((int) ((song.bpm + targetBeat / 2) / targetBeat));
+            Log.d("BEATRATE", "target rate: "+targetBeat+" original bpm: "+song.bpm+" resulting bpm: "+targetBpm+" resulting speed: "+(targetBpm / song.bpm));
+            playback.setSpeed(targetBpm / song.bpm);
+        }
+        else {
+            playback.setSpeed(1.0);
         }
     }
 
@@ -703,6 +726,21 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
         }
     }
 
+    public boolean isTargetBeatEnabled() {
+        return targetBeatEnabled;
+    }
+
+    public double getTargetBeat() {
+        return targetBeatEnabled ? targetBeat : 0.0;
+    }
+
+    public void setTargetBeat(boolean enabled, double target) {
+        targetBeatEnabled = enabled;
+        targetBeat = target;
+        prepareNext(); // TODO I think this will be needed to filter out songs that can not be stretched to the target bpm
+        handleAndSendChangeInternal(TARGET_BEAT_CHANGED);
+    }
+
     public void openQueue(@Nullable final ArrayList<Song> playingQueue, final int startPosition, final boolean startPlaying) {
         if (playingQueue != null && !playingQueue.isEmpty() && startPosition >= 0 && startPosition < playingQueue.size()) {
             // it is important to copy the playing queue here first as we might add/remove songs later
@@ -854,6 +892,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
                     if (!playback.isInitialized()) {
                         playSongAt(getPosition());
                     } else {
+                        setTargetSpeedForPlayback(getCurrentSong());
                         playback.start();
                         if (!becomingNoisyReceiverRegistered) {
                             registerReceiver(becomingNoisyReceiver, becomingNoisyReceiverIntentFilter);
@@ -1125,6 +1164,9 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
                 } else {
                     playingNotification.stop();
                 }
+                break;
+            case TARGET_BEAT_CHANGED:
+                setTargetSpeedForPlayback(getCurrentSong());
                 break;
         }
     }

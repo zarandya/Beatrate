@@ -27,7 +27,7 @@ import android.view.KeyEvent;
 
 import androidx.core.content.ContextCompat;
 
-import com.poupa.vinylmusicplayer.BuildConfig;
+import io.github.zarandya.beatrate.BuildConfig;
 
 /**
  * Used to control headset playback.

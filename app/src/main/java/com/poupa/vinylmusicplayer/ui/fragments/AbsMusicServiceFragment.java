@@ -83,4 +83,9 @@ public class AbsMusicServiceFragment extends Fragment implements MusicServiceEve
     public void onMediaStoreChanged() {
 
     }
+
+    @Override
+    public void onTargetBeatChanged() {
+
+    }
 }

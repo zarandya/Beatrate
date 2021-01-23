@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.graphics.drawable.IconCompat;
 
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.util.ImageUtil;
 import com.poupa.vinylmusicplayer.util.PreferenceUtil;
 

@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 public class RingtoneManager {
 

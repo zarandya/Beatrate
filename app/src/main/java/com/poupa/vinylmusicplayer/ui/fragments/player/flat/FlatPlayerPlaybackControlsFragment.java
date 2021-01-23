@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.kabouzeid.appthemehelper.util.MaterialValueHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;
 import com.poupa.vinylmusicplayer.helper.MusicProgressViewUpdateHelper;
 import com.poupa.vinylmusicplayer.helper.PlayPauseButtonOnClickHandler;
@@ -130,6 +130,11 @@ public class FlatPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
         updateShuffleState();
     }
 
+    @Override
+    public void onTargetBeatChanged() {
+        updateTargetBeatState();
+    }
+
     public void setDark(boolean dark) {
         if (dark) {
             lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(getActivity(), true);
@@ -230,6 +235,14 @@ public class FlatPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
                 repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN);
                 break;
         }
+    }
+
+    private void setUpTargetBeatButton() {
+        // TODO
+    }
+
+    private void updateTargetBeatState() {
+        // TODO
     }
 
     public void show() {

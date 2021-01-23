@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,7 +27,7 @@ import com.afollestad.materialdialogs.util.DialogUtils;
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialValueHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.album.HorizontalAlbumAdapter;
 import com.poupa.vinylmusicplayer.adapter.song.ArtistSongAdapter;
 import com.poupa.vinylmusicplayer.dialogs.AddToPlaylistDialog;
@@ -40,8 +39,6 @@ import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;
 import com.poupa.vinylmusicplayer.interfaces.CabHolder;
 import com.poupa.vinylmusicplayer.interfaces.LoaderIds;
 import com.poupa.vinylmusicplayer.interfaces.PaletteColorHolder;
-import com.poupa.vinylmusicplayer.lastfm.rest.LastFMRestClient;
-import com.poupa.vinylmusicplayer.lastfm.rest.model.LastFmArtist;
 import com.poupa.vinylmusicplayer.loader.ArtistLoader;
 import com.poupa.vinylmusicplayer.misc.SimpleObservableScrollViewCallbacks;
 import com.poupa.vinylmusicplayer.misc.WrappedAsyncTaskLoader;
@@ -59,9 +56,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Be careful when changing things in this Activity!
@@ -113,8 +107,6 @@ public class ArtistDetailActivity extends AbsSlidingMusicPanelActivity implement
     private HorizontalAlbumAdapter albumAdapter;
     private ArtistSongAdapter songAdapter;
 
-    private LastFMRestClient lastFMRestClient;
-
     private boolean forceDownload;
     private final SimpleObservableScrollViewCallbacks observableScrollViewCallbacks = new SimpleObservableScrollViewCallbacks() {
         @Override
@@ -138,7 +130,6 @@ public class ArtistDetailActivity extends AbsSlidingMusicPanelActivity implement
         setDrawUnderStatusbar();
         ButterKnife.bind(this);
 
-        lastFMRestClient = new LastFMRestClient(this);
         usePalette = PreferenceUtil.getInstance().albumArtistColoredFooters();
 
         initViews();
@@ -216,7 +207,7 @@ public class ArtistDetailActivity extends AbsSlidingMusicPanelActivity implement
 
     private void loadBiography(@Nullable final String lang) {
         biography = null;
-
+        /*
         lastFMRestClient.getApiService()
                 .getArtistInfo(getArtist().getName(), lang, null)
                 .enqueue(new Callback<LastFmArtist>() {
@@ -252,6 +243,7 @@ public class ArtistDetailActivity extends AbsSlidingMusicPanelActivity implement
                         biography = null;
                     }
                 });
+         */
     }
 
     private void loadArtistImage() {

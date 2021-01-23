@@ -18,7 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.misc.UpdateToastMediaScannerCompletionListener;
 import com.poupa.vinylmusicplayer.ui.activities.MainActivity;
 import com.poupa.vinylmusicplayer.ui.fragments.mainactivity.folders.FoldersFragment;

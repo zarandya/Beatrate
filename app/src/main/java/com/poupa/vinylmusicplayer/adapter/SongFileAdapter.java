@@ -17,7 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.MediaStoreSignature;
 import com.kabouzeid.appthemehelper.util.ATHUtil;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.base.AbsMultiSelectAdapter;
 import com.poupa.vinylmusicplayer.adapter.base.MediaEntryViewHolder;
 import com.poupa.vinylmusicplayer.glide.GlideApp;

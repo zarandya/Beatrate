@@ -27,7 +27,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.util.TintHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.misc.DialogAsyncTask;
 import com.poupa.vinylmusicplayer.ui.activities.base.AbsThemeActivity;
 import com.poupa.vinylmusicplayer.ui.activities.bugreport.model.DeviceInfo;

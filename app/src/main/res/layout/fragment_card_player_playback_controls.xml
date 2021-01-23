@@ -89,8 +89,8 @@
 
         <ImageButton
             android:id="@+id/player_repeat_button"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -104,13 +104,13 @@
 
         <ImageButton
             android:id="@+id/player_shuffle_button"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginRight="8dp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_toStartOf="@+id/player_prev_button"
+            android:layout_toRightOf="@+id/player_repeat_button"
             android:background="?attr/roundSelector"
             android:padding="22dp"
             android:scaleType="fitCenter"
@@ -129,6 +129,22 @@
             android:layout_centerInParent="true"
             app:elevation="4dp"
             app:pressedTranslationZ="2dp" />
+
+        <Spinner
+            android:id="@+id/target_rate_spinner"
+            android:gravity="end"
+            android:paddingEnd="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_width="128dp"
+            android:layout_height="64dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toEndOf="@+id/player_next_button"
+            android:layout_toRightOf="@+id/player_next_button" />
 
     </RelativeLayout>
 

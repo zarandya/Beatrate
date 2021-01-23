@@ -10,7 +10,7 @@ import androidx.annotation.StringRes;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.poupa.vinylmusicplayer.App;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.model.Song;
 
 /**

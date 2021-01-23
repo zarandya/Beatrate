@@ -25,7 +25,7 @@ import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEColorPreference;
 import com.kabouzeid.appthemehelper.common.prefs.supportv7.ATEPreferenceFragmentCompat;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.appshortcuts.DynamicShortcutManager;
 import com.poupa.vinylmusicplayer.preferences.BlacklistPreference;
 import com.poupa.vinylmusicplayer.preferences.BlacklistPreferenceDialog;
@@ -134,7 +134,7 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
             addPreferencesFromResource(R.xml.pref_colors);
             addPreferencesFromResource(R.xml.pref_notification);
             addPreferencesFromResource(R.xml.pref_now_playing_screen);
-            addPreferencesFromResource(R.xml.pref_images);
+            //addPreferencesFromResource(R.xml.pref_images);
             addPreferencesFromResource(R.xml.pref_lockscreen);
             addPreferencesFromResource(R.xml.pref_audio);
             addPreferencesFromResource(R.xml.pref_playlists);

@@ -11,7 +11,7 @@ import android.view.ViewParent;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 import org.jetbrains.annotations.NotNull;
 

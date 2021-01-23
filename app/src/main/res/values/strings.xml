@@ -353,4 +353,8 @@
     <string name="action_toggle_favorite">Toggle favorite</string>
     <string name="pref_summary_show_song_number">Show the song track number in the playing queue and the notification</string>
     <string name="pref_title_show_song_number">Show song track number</string>
+    <string name="beatrate_target_rate_empty">Target rate</string>
+    <string name="beatrate_add_target_rate">+</string>
+    <string name="beatrate_target_rate_settings_activity_title">Target Rates</string>
+    <string name="beatrate_change_target_rate_item_value_title">Target Rate:</string>
 </resources>

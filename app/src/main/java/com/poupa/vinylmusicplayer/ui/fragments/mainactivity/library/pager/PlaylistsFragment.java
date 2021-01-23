@@ -8,7 +8,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.PlaylistAdapter;
 import com.poupa.vinylmusicplayer.interfaces.LoaderIds;
 import com.poupa.vinylmusicplayer.loader.PlaylistLoader;

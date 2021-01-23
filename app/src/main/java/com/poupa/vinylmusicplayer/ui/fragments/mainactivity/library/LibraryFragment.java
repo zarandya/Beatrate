@@ -26,7 +26,7 @@ import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.common.ATHToolbarActivity;
 import com.kabouzeid.appthemehelper.util.TabLayoutUtil;
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.MusicLibraryPagerAdapter;
 import com.poupa.vinylmusicplayer.dialogs.CreatePlaylistDialog;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;

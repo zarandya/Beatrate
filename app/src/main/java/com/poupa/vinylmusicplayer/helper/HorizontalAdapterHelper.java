@@ -3,7 +3,7 @@ package com.poupa.vinylmusicplayer.helper;
 import android.content.Context;
 import android.view.ViewGroup;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

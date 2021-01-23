@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.poupa.vinylmusicplayer.App;
-import com.poupa.vinylmusicplayer.R;
+
+import io.github.zarandya.beatrate.BeatDetectionService;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.interfaces.MusicServiceEventListener;
 import com.poupa.vinylmusicplayer.loader.ReplayGainTagExtractor;
 import com.poupa.vinylmusicplayer.loader.SongLoader;
@@ -32,6 +34,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
+
+import static com.poupa.vinylmusicplayer.model.Song.BpmType.*;
 
 /**
  * @author SC (soncaokim)
@@ -184,6 +188,10 @@ public class Discography implements MusicServiceEventListener {
 
             notifyDiscographyChanged();
 
+            if (song.bpmType == INVALID) {
+                BeatDetectionService.startActionAddSong(App.getInstance(), song);
+            }
+
             return true;
         }
     }
@@ -242,6 +250,9 @@ public class Discography implements MusicServiceEventListener {
 
     @Override
     public void onShuffleModeChanged() {}
+
+    @Override
+    public void onTargetBeatChanged() {}
 
     @Override
     public void onMediaStoreChanged() {

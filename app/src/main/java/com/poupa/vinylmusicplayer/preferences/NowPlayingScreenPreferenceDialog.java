@@ -19,7 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.heinrichreimersoftware.materialintro.view.InkPageIndicator;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.ui.fragments.player.NowPlayingScreen;
 import com.poupa.vinylmusicplayer.util.PreferenceUtil;
 import com.poupa.vinylmusicplayer.util.ViewUtil;

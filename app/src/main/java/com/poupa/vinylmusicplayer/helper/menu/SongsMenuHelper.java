@@ -3,7 +3,7 @@ package com.poupa.vinylmusicplayer.helper.menu;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.dialogs.AddToPlaylistDialog;
 import com.poupa.vinylmusicplayer.dialogs.DeleteSongsDialog;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;

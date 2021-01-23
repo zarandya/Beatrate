@@ -16,7 +16,7 @@ import androidx.media.app.NotificationCompat.MediaStyle;
 import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.request.transition.Transition;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.glide.GlideApp;
 import com.poupa.vinylmusicplayer.glide.VinylGlideExtension;
 import com.poupa.vinylmusicplayer.glide.VinylSimpleTarget;

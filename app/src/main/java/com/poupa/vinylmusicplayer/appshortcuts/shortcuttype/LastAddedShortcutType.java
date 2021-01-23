@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.pm.ShortcutInfo;
 import android.os.Build;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.appshortcuts.AppShortcutIconGenerator;
 import com.poupa.vinylmusicplayer.appshortcuts.AppShortcutLauncherActivity;
 

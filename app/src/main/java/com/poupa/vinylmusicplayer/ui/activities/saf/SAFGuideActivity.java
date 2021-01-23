@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 
 public class SAFGuideActivity extends IntroActivity {

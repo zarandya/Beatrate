@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.PlaybackParams;
 import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.PowerManager;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.service.playback.Playback;
 import com.poupa.vinylmusicplayer.util.PreferenceUtil;
 
@@ -167,6 +168,7 @@ public class MultiPlayer implements Playback, MediaPlayer.OnErrorListener, Media
     public boolean start() {
         try {
             mCurrentMediaPlayer.start();
+            setSpeed(mSpeed);
             return true;
         } catch (IllegalStateException e) {
             return false;
@@ -351,6 +353,20 @@ public class MultiPlayer implements Playback, MediaPlayer.OnErrorListener, Media
         } else {
             if (callbacks != null)
                 callbacks.onTrackEnded();
+        }
+    }
+    
+    private double mSpeed = 1.0;
+
+    @Override
+    public void setSpeed(double speed) {
+        mSpeed = speed;
+        if (isPlaying()) {
+            try {
+                mCurrentMediaPlayer.setPlaybackParams(new PlaybackParams().setSpeed((float) mSpeed));
+            } catch (IllegalStateException e) {
+                Log.e("MultiPlayer", "Error when setting speed:", e);
+            }
         }
     }
 }

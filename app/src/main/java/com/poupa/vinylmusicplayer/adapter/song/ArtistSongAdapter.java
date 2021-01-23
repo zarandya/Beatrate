@@ -19,7 +19,7 @@ import androidx.core.util.Pair;
 
 import com.afollestad.materialcab.MaterialCab;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.glide.GlideApp;
 import com.poupa.vinylmusicplayer.glide.VinylGlideExtension;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;

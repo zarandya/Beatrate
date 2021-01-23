@@ -30,7 +30,7 @@ import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.util.ATHUtil;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.base.MediaEntryViewHolder;
 import com.poupa.vinylmusicplayer.dialogs.LyricsDialog;
 import com.poupa.vinylmusicplayer.dialogs.SongShareDialog;

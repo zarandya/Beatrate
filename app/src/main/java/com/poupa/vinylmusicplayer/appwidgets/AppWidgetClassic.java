@@ -2,7 +2,7 @@ package com.poupa.vinylmusicplayer.appwidgets;
 
 import android.widget.RemoteViews;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.appwidgets.base.BaseAppWidget;
 import com.poupa.vinylmusicplayer.service.MusicService;
 

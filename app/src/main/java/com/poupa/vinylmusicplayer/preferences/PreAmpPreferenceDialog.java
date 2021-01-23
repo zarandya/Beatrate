@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.util.PreferenceUtil;
 
 import java.util.Locale;

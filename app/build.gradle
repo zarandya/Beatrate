@@ -7,17 +7,21 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 29
 
         renderscriptTargetApi 29
         vectorDrawables.useSupportLibrary = true
 
-        applicationId 'com.poupa.vinylmusicplayer'
+        applicationId 'io.github.zarandya.beatrate'
         versionCode 172
         versionName '1.0.0'
 
         multiDexEnabled true
+
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86_64'
+        }
     }
     buildTypes {
         release {
@@ -28,6 +32,7 @@ android {
         debug {
             applicationIdSuffix '.debug'
             versionNameSuffix ' DEBUG'
+            jniDebuggable true
         }
     }
     signingConfigs {
@@ -78,6 +83,12 @@ android {
     }
     buildFeatures {
         dataBinding = true
+    }
+    externalNativeBuild {
+        cmake {
+            version "3.19.3"
+            path file('CMakeLists.txt')
+        }
     }
 }
 

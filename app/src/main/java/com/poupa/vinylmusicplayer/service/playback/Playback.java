@@ -39,6 +39,8 @@ public interface Playback {
 
     void setDuckingFactor(float duckingFactor);
 
+    void setSpeed(double speed);
+
     interface PlaybackCallbacks {
         void onTrackWentToNext();
 

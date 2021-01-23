@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.poupa.vinylmusicplayer.App;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.dialogs.AddToPlaylistDialog;
 import com.poupa.vinylmusicplayer.dialogs.DeletePlaylistDialog;
 import com.poupa.vinylmusicplayer.dialogs.RenamePlaylistDialog;

@@ -27,6 +27,8 @@ public class Song implements Parcelable {
     public String artistName;
     public String albumArtistName;
     public String genre;
+    public double bpm;
+    public int bpmType;
 
     private float replayGainTrack = Float.NaN;
     private float replayGainAlbum = Float.NaN;
@@ -44,7 +46,7 @@ public class Song implements Parcelable {
         this.albumName = albumName;
         this.artistId = artistId;
         this.artistName = artistName;
-        // Note: Ignore since it's not supported by MediaStore: discNumber, genre
+        // Note: Ignore since it's not supported by MediaStore: discNumber, genre, bpm, bpmType
     }
 
     public void setReplayGainValues(float track, float album) {
@@ -130,6 +132,8 @@ public class Song implements Parcelable {
                 ", artistId=" + artistId +
                 ", artistName='" + artistName + '\'' +
                 ", genre='" + genre + '\'' +
+                ", bpm=" + bpm +
+                ", bpmType=" + bpmType +
                 '}';
     }
 
@@ -182,4 +186,11 @@ public class Song implements Parcelable {
             return new Song[size];
         }
     };
+
+    public interface BpmType {
+        int INVALID = 0;
+        int DISABLED = 1;
+        int DETECTED = 2;
+        int MANUAL = 3;
+    }
 }

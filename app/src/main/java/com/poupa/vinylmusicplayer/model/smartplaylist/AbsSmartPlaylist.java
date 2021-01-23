@@ -6,7 +6,7 @@ import android.os.Parcel;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.model.AbsCustomPlaylist;
 
 /**

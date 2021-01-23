@@ -13,7 +13,7 @@ import android.os.IBinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;
 import com.poupa.vinylmusicplayer.interfaces.MusicServiceEventListener;
 import com.poupa.vinylmusicplayer.service.MusicService;
@@ -85,6 +85,7 @@ public abstract class AbsMusicServiceActivity extends AbsBaseActivity implements
             filter.addAction(MusicService.QUEUE_CHANGED);
             filter.addAction(MusicService.MEDIA_STORE_CHANGED);
             filter.addAction(MusicService.FAVORITE_STATE_CHANGED);
+            filter.addAction(MusicService.TARGET_BEAT_CHANGED);
 
             registerReceiver(musicStateReceiver, filter);
 
@@ -166,6 +167,15 @@ public abstract class AbsMusicServiceActivity extends AbsBaseActivity implements
         }
     }
 
+    @Override
+    public void onTargetBeatChanged() {
+        for (MusicServiceEventListener listener : mMusicServiceEventListeners) {
+            if (listener != null) {
+                listener.onTargetBeatChanged();
+            }
+        }
+    }
+
     private static final class MusicStateReceiver extends BroadcastReceiver {
 
         private final WeakReference<AbsMusicServiceActivity> reference;
@@ -198,6 +208,9 @@ public abstract class AbsMusicServiceActivity extends AbsBaseActivity implements
                         break;
                     case MusicService.MEDIA_STORE_CHANGED:
                         activity.onMediaStoreChanged();
+                        break;
+                    case MusicService.TARGET_BEAT_CHANGED:
+                        activity.onTargetBeatChanged();
                         break;
                 }
             }

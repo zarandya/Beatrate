@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.discog.Discography;
 
 import org.jaudiotagger.tag.FieldKey;
@@ -82,10 +82,12 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
 
     }
 
+    /*
     @Override
     protected void getImageFromLastFM() {
 
     }
+     */
 
     @Override
     protected void searchImageOnWeb() {

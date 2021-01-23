@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.model.Playlist;
 import com.poupa.vinylmusicplayer.util.PlaylistsUtil;
 

@@ -3,7 +3,7 @@ package com.poupa.vinylmusicplayer.ui.fragments.player;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.StringRes;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 public enum NowPlayingScreen {
     CARD(R.string.card, R.drawable.np_card, 0),

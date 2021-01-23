@@ -16,7 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.afollestad.materialdialogs.internal.ThemeSingleton;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.dialogs.ChangelogDialog;
 import com.poupa.vinylmusicplayer.ui.activities.base.AbsBaseActivity;
 import com.poupa.vinylmusicplayer.ui.activities.bugreport.BugReportActivity;

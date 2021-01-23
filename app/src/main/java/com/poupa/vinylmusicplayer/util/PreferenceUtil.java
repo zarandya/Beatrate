@@ -3,19 +3,18 @@ package com.poupa.vinylmusicplayer.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.poupa.vinylmusicplayer.App;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.helper.SortOrder;
 import com.poupa.vinylmusicplayer.model.CategoryInfo;
 import com.poupa.vinylmusicplayer.ui.fragments.mainactivity.folders.FoldersFragment;
@@ -24,6 +23,10 @@ import com.poupa.vinylmusicplayer.ui.fragments.player.NowPlayingScreen;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import io.github.zarandya.beatrate.TargetRateKt;
 
 public final class PreferenceUtil {
     public static final String GENERAL_THEME = "general_theme";
@@ -93,6 +96,8 @@ public final class PreferenceUtil {
     public static final String RG_SOURCE_MODE = "replaygain_srource_mode";
     public static final String RG_PREAMP_WITH_TAG = "replaygain_preamp_with_tag";
     public static final String RG_PREAMP_WITHOUT_TAG = "replaygain_preamp_without_tag";
+    
+    public static final String TARGET_RATES = "target_rates";
 
     public static final byte RG_SOURCE_MODE_NONE = 0;
     public static final byte RG_SOURCE_MODE_TRACK = 1;
@@ -116,6 +121,8 @@ public final class PreferenceUtil {
     }
 
     public static boolean isAllowedToDownloadMetadata(final Context context) {
+        return false;
+        /*
         switch (getInstance().autoDownloadImagesPolicy()) {
             case "always":
                 return true;
@@ -127,6 +134,7 @@ public final class PreferenceUtil {
             default:
                 return false;
         }
+         */
     }
 
     public void registerOnSharedPreferenceChangedListener(SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener) {
@@ -153,11 +161,11 @@ public final class PreferenceUtil {
         switch (themePrefValue) {
             case "dark":
                 return R.style.Theme_VinylMusicPlayer;
-            case "black":
-                return R.style.Theme_VinylMusicPlayer_Black;
             case "light":
-            default:
                 return R.style.Theme_VinylMusicPlayer_Light;
+            case "black":
+            default:
+                return R.style.Theme_VinylMusicPlayer_Black;
         }
     }
 
@@ -629,5 +637,15 @@ public final class PreferenceUtil {
 
     public final void setSAFSDCardUri(Uri uri) {
         mPreferences.edit().putString(SAF_SDCARD_URI, uri.toString()).apply();
+    }
+    
+    public ArrayList<Double> getTargetRates() {
+        String targetRates = mPreferences.getString(TARGET_RATES, "20;22;24;26;28;30");
+        return TargetRateKt.parseTargetRatePreferenceString(targetRates);
+    }
+    
+    public void setTargetRates(ArrayList<Double> value) {
+        String targetRates = TargetRateKt.serialiseTargetRates(value);
+        mPreferences.edit().putString(TARGET_RATES, targetRates).apply();
     }
 }

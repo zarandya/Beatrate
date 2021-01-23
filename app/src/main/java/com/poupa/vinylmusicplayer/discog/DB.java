@@ -9,9 +9,12 @@ import androidx.annotation.NonNull;
 
 import com.poupa.vinylmusicplayer.App;
 import com.poupa.vinylmusicplayer.model.Song;
+import com.poupa.vinylmusicplayer.util.MusicUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import io.github.zarandya.beatrate.BeatDetector;
 
 /**
  * @author SC (soncaokim)
@@ -19,7 +22,7 @@ import java.util.Collection;
 
 class DB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "discography.db";
-    private static final int VERSION = 5;
+    private static final int VERSION = 6;
 
     public DB() {
         super(App.getInstance().getApplicationContext(), DATABASE_NAME, null, VERSION);
@@ -44,7 +47,9 @@ class DB extends SQLiteOpenHelper {
                         + SongColumns.TRACK_DURATION + " LONG, "
                         + SongColumns.TRACK_NUMBER + " LONG, "
                         + SongColumns.TRACK_TITLE + " TEXT, "
-                        + SongColumns.YEAR + " LONG"
+                        + SongColumns.YEAR + " LONG, "
+                        + SongColumns.BPM + " REAL, "
+                        + SongColumns.BPM_TYPE + " INTEGER"
                         + ");"
         );
     }
@@ -80,6 +85,8 @@ class DB extends SQLiteOpenHelper {
             values.put(SongColumns.TRACK_NUMBER, song.trackNumber);
             values.put(SongColumns.TRACK_TITLE, song.title);
             values.put(SongColumns.YEAR, song.year);
+            values.put(SongColumns.BPM, song.bpm);
+            values.put(SongColumns.BPM_TYPE, song.bpmType);
 
             db.insert(SongColumns.NAME, null, values);
         } catch (Exception e) {
@@ -130,7 +137,9 @@ class DB extends SQLiteOpenHelper {
                         SongColumns.TRACK_DURATION,
                         SongColumns.TRACK_NUMBER,
                         SongColumns.TRACK_TITLE,
-                        SongColumns.YEAR
+                        SongColumns.YEAR,
+                        SongColumns.BPM,
+                        SongColumns.BPM_TYPE
                 },
                 null,
                 null,
@@ -160,6 +169,8 @@ class DB extends SQLiteOpenHelper {
                 final int trackNumber = cursor.getInt(++columnIndex);
                 final String trackTitle = cursor.getString(++columnIndex);
                 final int year = cursor.getInt(++columnIndex);
+                final double bpm = cursor.getDouble(++columnIndex);
+                final int bpmType = cursor.getInt(++columnIndex);
 
                 Song song = new Song(
                         id,
@@ -177,6 +188,8 @@ class DB extends SQLiteOpenHelper {
                 song.discNumber = discNumber;
                 song.setReplayGainValues(replayGainTrack, replayGainAlbum);
                 song.genre = genre;
+                song.bpm = bpm;
+                song.bpmType = bpmType;
 
                 songs.add(song);
             } while (cursor.moveToNext());
@@ -203,5 +216,8 @@ class DB extends SQLiteOpenHelper {
         String TRACK_TITLE = "track_title";
         String TRACK_NUMBER = "track_number";
         String YEAR = "year";
+        String BPM = "bpm";
+        String BPM_TYPE = "bpm_type";
     }
+
 }

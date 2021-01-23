@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.poupa.vinylmusicplayer.BuildConfig;
+import io.github.zarandya.beatrate.BuildConfig;
 import com.poupa.vinylmusicplayer.helper.StackBlur;
 import com.poupa.vinylmusicplayer.util.ImageUtil;
 

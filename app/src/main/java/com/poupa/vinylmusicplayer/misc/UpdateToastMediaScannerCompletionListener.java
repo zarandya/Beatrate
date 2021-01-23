@@ -6,7 +6,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.widget.Toast;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 import java.lang.ref.WeakReference;
 

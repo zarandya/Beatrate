@@ -7,10 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,16 +19,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.transition.Transition;
 import com.kabouzeid.appthemehelper.util.ATHUtil;
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.glide.GlideApp;
 import com.poupa.vinylmusicplayer.glide.VinylSimpleTarget;
 import com.poupa.vinylmusicplayer.glide.palette.BitmapPaletteWrapper;
-import com.poupa.vinylmusicplayer.lastfm.rest.LastFMRestClient;
-import com.poupa.vinylmusicplayer.lastfm.rest.model.LastFmAlbum;
 import com.poupa.vinylmusicplayer.loader.AlbumLoader;
 import com.poupa.vinylmusicplayer.model.Song;
 import com.poupa.vinylmusicplayer.util.ImageUtil;
-import com.poupa.vinylmusicplayer.util.LastFMUtil;
 import com.poupa.vinylmusicplayer.util.VinylMusicPlayerColorUtil;
 
 import org.jaudiotagger.tag.FieldKey;
@@ -42,9 +37,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AlbumTagEditorActivity extends AbsTagEditorActivity implements TextWatcher {
 
@@ -61,14 +53,11 @@ public class AlbumTagEditorActivity extends AbsTagEditorActivity implements Text
 
     private Bitmap albumArtBitmap;
     private boolean deleteAlbumArt;
-    private LastFMRestClient lastFMRestClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-
-        lastFMRestClient = new LastFMRestClient(this);
 
         setUpViews();
     }
@@ -98,6 +87,7 @@ public class AlbumTagEditorActivity extends AbsTagEditorActivity implements Text
         deleteAlbumArt = false;
     }
 
+        /*
     @Override
     protected void getImageFromLastFM() {
         String albumTitleStr = albumTitle.getText().toString();
@@ -152,6 +142,7 @@ public class AlbumTagEditorActivity extends AbsTagEditorActivity implements Text
             }
         });
     }
+         */
 
     @Override
     protected void searchImageOnWeb() {

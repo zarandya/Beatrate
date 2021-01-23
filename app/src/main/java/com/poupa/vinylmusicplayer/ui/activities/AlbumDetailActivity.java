@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +26,7 @@ import com.afollestad.materialdialogs.util.DialogUtils;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialValueHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.song.AlbumSongAdapter;
 import com.poupa.vinylmusicplayer.dialogs.AddToPlaylistDialog;
 import com.poupa.vinylmusicplayer.dialogs.DeleteSongsDialog;
@@ -39,8 +38,6 @@ import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;
 import com.poupa.vinylmusicplayer.interfaces.CabHolder;
 import com.poupa.vinylmusicplayer.interfaces.LoaderIds;
 import com.poupa.vinylmusicplayer.interfaces.PaletteColorHolder;
-import com.poupa.vinylmusicplayer.lastfm.rest.LastFMRestClient;
-import com.poupa.vinylmusicplayer.lastfm.rest.model.LastFmAlbum;
 import com.poupa.vinylmusicplayer.loader.AlbumLoader;
 import com.poupa.vinylmusicplayer.misc.SimpleObservableScrollViewCallbacks;
 import com.poupa.vinylmusicplayer.misc.WrappedAsyncTaskLoader;
@@ -59,9 +56,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Be careful when changing things in this Activity!
@@ -114,7 +108,6 @@ public class AlbumDetailActivity extends AbsSlidingMusicPanelActivity implements
     @Nullable
     private Spanned wiki;
     private MaterialDialog wikiDialog;
-    private LastFMRestClient lastFMRestClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +115,6 @@ public class AlbumDetailActivity extends AbsSlidingMusicPanelActivity implements
         setDrawUnderStatusbar();
         ButterKnife.bind(this);
 
-        lastFMRestClient = new LastFMRestClient(this);
 
         setUpObservableListViewParams();
         setUpToolBar();
@@ -259,6 +251,7 @@ public class AlbumDetailActivity extends AbsSlidingMusicPanelActivity implements
     private void loadWiki(@Nullable final String lang) {
         wiki = null;
 
+        /*
         lastFMRestClient.getApiService()
                 .getAlbumInfo(getAlbum().getTitle(), getAlbum().getArtistName(), lang)
                 .enqueue(new Callback<LastFmAlbum>() {
@@ -293,6 +286,7 @@ public class AlbumDetailActivity extends AbsSlidingMusicPanelActivity implements
                         t.printStackTrace();
                     }
                 });
+         */
     }
 
     @Override

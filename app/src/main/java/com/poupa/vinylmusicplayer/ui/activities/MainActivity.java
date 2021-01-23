@@ -25,7 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.util.ATHUtil;
 import com.kabouzeid.appthemehelper.util.NavigationViewUtil;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.dialogs.ChangelogDialog;
 import com.poupa.vinylmusicplayer.dialogs.ScanMediaFolderChooserDialog;
 import com.poupa.vinylmusicplayer.discog.Discography;

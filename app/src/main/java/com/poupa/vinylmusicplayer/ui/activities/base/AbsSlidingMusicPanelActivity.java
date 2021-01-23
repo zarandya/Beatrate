@@ -15,7 +15,7 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.LayoutRes;
 import androidx.fragment.app.Fragment;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;
 import com.poupa.vinylmusicplayer.ui.fragments.player.AbsPlayerFragment;
 import com.poupa.vinylmusicplayer.ui.fragments.player.MiniPlayerFragment;

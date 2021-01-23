@@ -15,7 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.MediaStoreSignature;
 import com.poupa.vinylmusicplayer.App;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.glide.artistimage.ArtistImage;
 import com.poupa.vinylmusicplayer.glide.audiocover.AudioFileCover;
 import com.poupa.vinylmusicplayer.glide.palette.BitmapPaletteWrapper;

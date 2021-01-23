@@ -5,7 +5,7 @@ import android.os.Parcel;
 
 import androidx.annotation.NonNull;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.loader.SongLoader;
 import com.poupa.vinylmusicplayer.model.Song;
 

@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialcab.MaterialCab;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.interfaces.CabHolder;
 import com.poupa.vinylmusicplayer.ui.activities.base.AbsThemeActivity;
 import com.poupa.vinylmusicplayer.util.VinylMusicPlayerColorUtil;

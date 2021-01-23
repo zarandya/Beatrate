@@ -17,7 +17,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 /**
  * @author Karim Abou Zeid (kabouzeid)

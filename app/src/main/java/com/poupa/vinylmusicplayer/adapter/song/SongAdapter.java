@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialcab.MaterialCab;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.MaterialValueHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.base.AbsMultiSelectAdapter;
 import com.poupa.vinylmusicplayer.adapter.base.MediaEntryViewHolder;
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote;

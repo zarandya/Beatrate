@@ -18,7 +18,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 public class PlayPauseDrawable extends Drawable {
     private static final long PLAY_PAUSE_ANIMATION_DURATION = 250;

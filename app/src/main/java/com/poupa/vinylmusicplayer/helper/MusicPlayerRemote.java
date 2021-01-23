@@ -21,7 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.loader.SongLoader;
 import com.poupa.vinylmusicplayer.model.Song;
 import com.poupa.vinylmusicplayer.service.MusicService;
@@ -286,6 +286,20 @@ public class MusicPlayerRemote {
         return MusicService.SHUFFLE_MODE_NONE;
     }
 
+    public static boolean isTargetBeatEnabled() {
+        if (musicService != null) {
+            return musicService.isTargetBeatEnabled();
+        }
+        return false;
+    }
+
+    public static double getTargetBeat() {
+        if (musicService != null) {
+            return musicService.getTargetBeat();
+        }
+        return 0.0;
+    }
+
     public static boolean cycleRepeatMode() {
         if (musicService != null) {
             musicService.cycleRepeatMode();
@@ -305,6 +319,14 @@ public class MusicPlayerRemote {
     public static boolean setShuffleMode(final int shuffleMode) {
         if (musicService != null) {
             musicService.setShuffleMode(shuffleMode);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean setTargetBeat(boolean enabled, double target) {
+        if (musicService != null) {
+            musicService.setTargetBeat(enabled, target);
             return true;
         }
         return false;

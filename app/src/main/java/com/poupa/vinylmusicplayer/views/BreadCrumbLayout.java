@@ -18,7 +18,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kabouzeid.appthemehelper.ThemeStore;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.adapter.SearchAdapter;
 import com.poupa.vinylmusicplayer.discog.StringUtil;
 import com.poupa.vinylmusicplayer.interfaces.LoaderIds;

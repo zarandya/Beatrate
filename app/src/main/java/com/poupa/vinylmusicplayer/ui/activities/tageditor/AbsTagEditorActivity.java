@@ -30,7 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kabouzeid.appthemehelper.ThemeStore;
 import com.kabouzeid.appthemehelper.util.ColorUtil;
 import com.kabouzeid.appthemehelper.util.TintHelper;
-import com.poupa.vinylmusicplayer.R;
+import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.discog.Discography;
 import com.poupa.vinylmusicplayer.misc.DialogAsyncTask;
 import com.poupa.vinylmusicplayer.misc.SimpleObservableScrollViewCallbacks;
@@ -153,7 +153,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
                 .itemsCallback((dialog, view, which, text) -> {
                     switch (which) {
                         case 0:
-                            getImageFromLastFM();
+                            //getImageFromLastFM();
                             break;
                         case 1:
                             startImagePicker();
@@ -176,7 +176,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
 
     protected abstract void loadCurrentImage();
 
-    protected abstract void getImageFromLastFM();
+    //protected abstract void getImageFromLastFM();
 
     protected abstract void searchImageOnWeb();
 
@@ -218,7 +218,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
         // Start search intent if possible: https://stackoverflow.com/questions/36592450/unexpected-intent-with-action-web-search
         if (Intent.ACTION_WEB_SEARCH.equals(intent.getAction()) && intent.getExtras() != null) {
             String query = intent.getExtras().getString(SearchManager.QUERY, null);
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/search?q="+query));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.duckduckgo.com/?iax=images&ia=images&q="+query));
             boolean browserExists = intent.resolveActivityInfo(getPackageManager(), 0) != null;
             if (browserExists && query != null) {
                 startActivity(browserIntent);
