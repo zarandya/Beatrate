@@ -192,12 +192,14 @@ public class SettingsActivity extends AbsBaseActivity implements ColorChooserDia
                 return true;
             });
 
+            /*
             final Preference autoDownloadImagesPolicy = findPreference("auto_download_images_policy");
             setSummary(autoDownloadImagesPolicy);
             autoDownloadImagesPolicy.setOnPreferenceChangeListener((preference, o) -> {
                 setSummary(autoDownloadImagesPolicy, o);
                 return true;
             });
+             */
 
             final ATEColorPreference primaryColorPref = (ATEColorPreference) findPreference("primary_color");
             if (getActivity() != null) {

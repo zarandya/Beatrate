@@ -55,5 +55,3 @@ target_link_libraries(
                        native-lib
                        ${log-lib} fftw3f libmpg123
 )
-
-configure_file(cmakevars.in cmakevars)
