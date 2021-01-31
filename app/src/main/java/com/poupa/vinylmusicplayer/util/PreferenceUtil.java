@@ -23,6 +23,7 @@ import com.poupa.vinylmusicplayer.ui.fragments.player.NowPlayingScreen;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -98,6 +99,7 @@ public final class PreferenceUtil {
     public static final String RG_PREAMP_WITHOUT_TAG = "replaygain_preamp_without_tag";
     
     public static final String TARGET_RATES = "target_rates";
+    private static final String INSTANCE_ID = "instance_id";
 
     public static final byte RG_SOURCE_MODE_NONE = 0;
     public static final byte RG_SOURCE_MODE_TRACK = 1;
@@ -511,7 +513,7 @@ public final class PreferenceUtil {
         return mPreferences.getInt(LAST_CHANGELOG_VERSION, -1);
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint({"CommitPrefEdits", "ApplySharedPref"})
     public void setIntroShown() {
         // don't use apply here
         mPreferences.edit().putBoolean(INTRO_SHOWN, true).commit();
@@ -647,5 +649,15 @@ public final class PreferenceUtil {
     public void setTargetRates(ArrayList<Double> value) {
         String targetRates = TargetRateKt.serialiseTargetRates(value);
         mPreferences.edit().putString(TARGET_RATES, targetRates).apply();
+    }
+
+    @SuppressLint("ApplySharedPref")
+    public String getInstanceId() {
+        String id = mPreferences.getString(INSTANCE_ID, null);
+        if (id == null) {
+            id = UUID.randomUUID().toString();
+            mPreferences.edit().putString(INSTANCE_ID, id).commit();
+        }
+        return id;
     }
 }

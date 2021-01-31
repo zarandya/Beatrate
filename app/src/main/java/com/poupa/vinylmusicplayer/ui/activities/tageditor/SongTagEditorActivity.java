@@ -1,19 +1,27 @@
 package com.poupa.vinylmusicplayer.ui.activities.tageditor;
 
+import android.content.BroadcastReceiver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
 
+import io.github.zarandya.beatrate.BeatDetectionService;
 import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.discog.Discography;
+import com.poupa.vinylmusicplayer.model.Song;
+import com.poupa.vinylmusicplayer.views.IconImageView;
 
 import org.jaudiotagger.tag.FieldKey;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -23,7 +31,14 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SongTagEditorActivity extends AbsTagEditorActivity implements TextWatcher {
+import static com.poupa.vinylmusicplayer.model.Song.BpmType.DISABLED;
+import static com.poupa.vinylmusicplayer.model.Song.BpmType.INVALID;
+import static com.poupa.vinylmusicplayer.model.Song.BpmType.MANUAL;
+import static io.github.zarandya.beatrate.BeatDetectorKt.MAX_BPM;
+import static io.github.zarandya.beatrate.BeatDetectorKt.MIN_BPM;
+import static io.github.zarandya.beatrate.tags.TagStringKt.updateTagSignature;
+
+public class SongTagEditorActivity extends AbsTagEditorActivity implements TextWatcher, View.OnClickListener {
 
     @BindView(R.id.title1)
     EditText songTitle;
@@ -42,6 +57,14 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
     @BindView(R.id.lyrics)
     EditText lyrics;
 
+    @BindView(R.id.beat_enabled_check_box)
+    CheckBox beatEnabledCheckBox;
+    @BindView(R.id.redetect_beat_button)
+    IconImageView reDetectBeatButton;
+    @BindView(R.id.beat_manual_entry_edit)
+    EditText beatManualEntryEdit;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +75,15 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
 
         //noinspection ConstantConditions
         getSupportActionBar().setTitle(R.string.action_tag_editor);
+
+        BeatDetectionService.registerSongDetectionFinishedReceiver(this, bpmDetectFinishedReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver(bpmDetectFinishedReceiver);
     }
 
     private void setUpViews() {
@@ -64,6 +96,8 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
         trackNumber.addTextChangedListener(this);
         discNumber.addTextChangedListener(this);
         lyrics.addTextChangedListener(this);
+        reDetectBeatButton.setOnClickListener(this);
+        beatManualEntryEdit.addTextChangedListener(this);
     }
 
     private void fillViewsWithFileTags() {
@@ -75,6 +109,20 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
         trackNumber.setText(getTrackNumber());
         discNumber.setText(getDiscNumber());
         lyrics.setText(getLyrics());
+        
+        Song song = getSongObject();
+        fillBpmViewsWithTags(song.bpm, song.bpmType);
+    }
+
+    private void fillBpmViewsWithTags(double bpm, int bpmType) {
+        if (bpmType == INVALID) {
+            beatEnabledCheckBox.setChecked(false);
+            beatManualEntryEdit.setHint(getResources().getStringArray(R.array.bpm_types)[INVALID]);
+        }
+        else {
+            beatEnabledCheckBox.setChecked(true);
+            beatManualEntryEdit.setHint(bpm + " (" + getResources().getStringArray(R.array.bpm_types)[bpmType] + ")");
+        }
     }
 
     @Override
@@ -98,6 +146,31 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
     protected void deleteImage() {
 
     }
+    
+    private void setBeatTags(Map<FieldKey, String> fieldKeyValueMap) {
+        int bpmType = DISABLED;
+        String newBpmString = "";
+        if (beatEnabledCheckBox.isChecked()) {
+            Song song = getSongObject();
+            newBpmString = beatManualEntryEdit.getText().toString();
+            if (newBpmString.equals("")) {
+                newBpmString = String.valueOf(song.bpm);
+            }
+            double newBpm = Double.parseDouble(newBpmString);
+            if (newBpm < MIN_BPM || newBpm > MAX_BPM)
+                return;
+            fieldKeyValueMap.put(FieldKey.BPM, newBpmString);
+            bpmType = (newBpm == song.bpm ? song.bpmType : MANUAL);
+        }
+
+        final String custom1 = getAudioFile(getSongPaths().get(0)).getTagOrCreateAndSetDefault().getFirst(FieldKey.CUSTOM1);
+        fieldKeyValueMap.put(FieldKey.CUSTOM1, updateTagSignature(custom1, newBpmString, bpmType));
+    }
+
+    @NotNull
+    private Song getSongObject() {
+        return Discography.getInstance().getSong(getId());
+    }
 
     @Override
     protected void save() {
@@ -110,6 +183,7 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
         fieldKeyValueMap.put(FieldKey.TRACK, trackNumber.getText().toString());
         fieldKeyValueMap.put(FieldKey.DISC_NO, discNumber.getText().toString());
         fieldKeyValueMap.put(FieldKey.LYRICS, lyrics.getText().toString());
+        setBeatTags(fieldKeyValueMap);
         writeValuesToFiles(fieldKeyValueMap, null);
     }
 
@@ -122,7 +196,7 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
     @Override
     protected List<String> getSongPaths() {
         ArrayList<String> paths = new ArrayList<>(1);
-        paths.add(Discography.getInstance().getSong(getId()).data);
+        paths.add(getSongObject().data);
         return paths;
     }
 
@@ -153,4 +227,21 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
         songTitle.setTextColor(toolbarTitleColor);
         albumTitle.setTextColor(toolbarTitleColor);
     }
+
+    @Override
+    public void onClick(View v) {
+        BeatDetectionService.startActionAddSong(this, getSongObject());
+    }
+
+    private final BroadcastReceiver bpmDetectFinishedReceiver =
+            BeatDetectionService.getNewOnSongDetectionFinishedReceiver((song, success) -> {
+                if (song.id == getId()) {
+                    if (success) {
+                        fillBpmViewsWithTags(song.bpm, song.bpmType);
+                    }
+                    else {
+                        Toast.makeText(this, R.string.toast_failed_to_detect_beat, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 }

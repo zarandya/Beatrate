@@ -548,7 +548,7 @@ public abstract class AbsTagEditorActivity extends AbsBaseActivity {
     protected abstract void loadImageFromFile(Uri selectedFile);
 
     @NonNull
-    private AudioFile getAudioFile(@NonNull String path) {
+    protected AudioFile getAudioFile(@NonNull String path) {
         try {
             return AudioFileIO.read(new File(path));
         } catch (Exception e) {

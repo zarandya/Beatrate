@@ -357,4 +357,13 @@
     <string name="beatrate_add_target_rate">+</string>
     <string name="beatrate_target_rate_settings_activity_title">Target Rates</string>
     <string name="beatrate_change_target_rate_item_value_title">Target Rate:</string>
+    <string name="label_beat">BPM: </string>
+    <string name="toast_failed_to_detect_beat">Failed to detect BPM.</string>
+
+    <string-array name="bpm_types">
+        <item>Invalid</item>
+        <item>Disabled</item>
+        <item>Detected</item>
+        <item>Manual</item>
+    </string-array>
 </resources>

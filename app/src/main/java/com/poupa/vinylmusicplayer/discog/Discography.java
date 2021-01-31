@@ -36,6 +36,9 @@ import java.util.Set;
 import java.util.function.Function;
 
 import static com.poupa.vinylmusicplayer.model.Song.BpmType.*;
+import static io.github.zarandya.beatrate.BeatDetectorKt.MAX_BPM;
+import static io.github.zarandya.beatrate.BeatDetectorKt.MIN_BPM;
+import static io.github.zarandya.beatrate.tags.TagStringKt.getBpmTypeIfHasValidTagSignature;
 
 /**
  * @author SC (soncaokim)
@@ -99,6 +102,18 @@ public class Discography implements MusicServiceEventListener {
             Song song = cache.songsById.get(songId);
             return song == null ? Song.EMPTY_SONG : song;
         }
+    }
+
+    @NonNull
+    public Song getSongByPath(String path) {
+        synchronized (cache) {
+            for (Song song : cache.songsById.values()) {
+                if (song.data.equals(path)) {
+                    return song;
+                }
+            }
+        }
+        return Song.EMPTY_SONG;
     }
 
     @NonNull
@@ -180,6 +195,8 @@ public class Discography implements MusicServiceEventListener {
                 }
             } catch (NumberFormatException ignored) {}
 
+            getBpmFromFileTags(song);
+
             cache.addSong(song);
 
             if (!cacheOnly) {
@@ -193,6 +210,23 @@ public class Discography implements MusicServiceEventListener {
             }
 
             return true;
+        }
+    }
+
+    private void getBpmFromFileTags(@NonNull Song song) {
+        try {
+            final Tag audioFileTag = AudioFileIO.read(new File(song.data)).getTagOrCreateAndSetDefault();
+            final String bpmString = audioFileTag.getFirst(FieldKey.BPM);
+            final double bpm = Double.parseDouble(bpmString);
+            if (MIN_BPM <= bpm && bpm <= MAX_BPM) {
+                final String custom1 = audioFileTag.getFirst(FieldKey.CUSTOM1);
+                final Integer bpmType = getBpmTypeIfHasValidTagSignature(custom1, bpmString);
+                if (bpmType != null) {
+                    song.bpm = bpm;
+                    song.bpmType = bpmType;
+                }
+            }
+        } catch (Exception ignored) {
         }
     }
 

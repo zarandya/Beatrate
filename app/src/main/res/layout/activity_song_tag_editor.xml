@@ -192,6 +192,41 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/beat_enabled_check_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="@string/label_beat" />
+
+                    <com.poupa.vinylmusicplayer.views.IconImageView
+                        android:id="@+id/redetect_beat_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:tint="?attr/iconColor"
+                        android:tintMode="src_in"
+                        app:srcCompat="@android:drawable/ic_popup_sync"
+                        tools:ignore="ContentDescription" />
+
+                    <EditText
+                        android:id="@+id/beat_manual_entry_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </RelativeLayout>

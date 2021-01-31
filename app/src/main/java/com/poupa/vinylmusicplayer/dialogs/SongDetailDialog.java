@@ -76,6 +76,7 @@ public class SongDetailDialog extends DialogFragment {
         final TextView bitRate = dialogView.findViewById(R.id.bitrate);
         final TextView samplingRate = dialogView.findViewById(R.id.sampling_rate);
         final TextView replayGain = dialogView.findViewById(R.id.replay_gain);
+        final TextView beat = dialogView.findViewById(R.id.beat_text_view);
 
         fileName.setText(makeTextWithTitle(context, R.string.label_file_name, "-"));
         filePath.setText(makeTextWithTitle(context, R.string.label_file_path, "-"));
@@ -85,6 +86,7 @@ public class SongDetailDialog extends DialogFragment {
         bitRate.setText(makeTextWithTitle(context, R.string.label_bit_rate, "-"));
         samplingRate.setText(makeTextWithTitle(context, R.string.label_sampling_rate, "-"));
         replayGain.setText(makeTextWithTitle(context, R.string.label_replay_gain, "-"));
+        beat.setText(makeTextWithTitle(context, R.string.label_beat, "-"));
 
         if (song != null) {
             final File songFile = new File(song.data);
@@ -114,6 +116,8 @@ public class SongDetailDialog extends DialogFragment {
                         replayGainValues = context.getString(R.string.none);
                     }
                     replayGain.setText(makeTextWithTitle(context, R.string.label_replay_gain, replayGainValues));
+
+                    beat.setText(makeTextWithTitle(context, R.string.label_beat, ""+song.bpm+" ("+getResources().getStringArray(R.array.bpm_types)[song.bpmType]+")"));
                 } catch (@NonNull CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException e) {
                     Log.e(TAG, "error while reading the song file", e);
                     // fallback

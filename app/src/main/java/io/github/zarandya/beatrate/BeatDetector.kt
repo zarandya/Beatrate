@@ -1,5 +1,8 @@
 package io.github.zarandya.beatrate
 
+const val MIN_BPM = 60.0
+const val MAX_BPM = 280.0
+
 object BeatDetector {
 
     init {
