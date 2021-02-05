@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.kabouzeid.appthemehelper.util.ToolbarContentTintHelper;
 
@@ -18,7 +19,6 @@ import io.github.zarandya.beatrate.BeatDetectionService;
 import io.github.zarandya.beatrate.R;
 import com.poupa.vinylmusicplayer.discog.Discography;
 import com.poupa.vinylmusicplayer.model.Song;
-import com.poupa.vinylmusicplayer.views.IconImageView;
 
 import org.jaudiotagger.tag.FieldKey;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +30,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Unit;
 
 import static com.poupa.vinylmusicplayer.model.Song.BpmType.DISABLED;
 import static com.poupa.vinylmusicplayer.model.Song.BpmType.INVALID;
@@ -60,7 +61,7 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
     @BindView(R.id.beat_enabled_check_box)
     CheckBox beatEnabledCheckBox;
     @BindView(R.id.redetect_beat_button)
-    IconImageView reDetectBeatButton;
+    View reDetectBeatButton;
     @BindView(R.id.beat_manual_entry_edit)
     EditText beatManualEntryEdit;
 
@@ -83,7 +84,7 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
     protected void onDestroy() {
         super.onDestroy();
 
-        unregisterReceiver(bpmDetectFinishedReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(bpmDetectFinishedReceiver);
     }
 
     private void setUpViews() {
@@ -230,7 +231,7 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
 
     @Override
     public void onClick(View v) {
-        BeatDetectionService.startActionAddSong(this, getSongObject());
+        BeatDetectionService.startActionAddSong(this, getSongObject(), BeatDetectionService.PLAY_NOW); // TODO this needs its own priority
     }
 
     private final BroadcastReceiver bpmDetectFinishedReceiver =
@@ -243,5 +244,6 @@ public class SongTagEditorActivity extends AbsTagEditorActivity implements TextW
                         Toast.makeText(this, R.string.toast_failed_to_detect_beat, Toast.LENGTH_SHORT).show();
                     }
                 }
+                return Unit.INSTANCE; // Arrgh... Kotlin lambdas require returning kotlin.Unit when called from Java
             });
 }

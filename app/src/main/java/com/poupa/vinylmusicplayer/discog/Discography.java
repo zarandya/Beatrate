@@ -206,7 +206,7 @@ public class Discography implements MusicServiceEventListener {
             notifyDiscographyChanged();
 
             if (song.bpmType == INVALID) {
-                BeatDetectionService.startActionAddSong(App.getInstance(), song);
+                BeatDetectionService.startActionAddSong(App.getInstance(), song, BeatDetectionService.FROM_SCAN);
             }
 
             return true;

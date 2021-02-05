@@ -6,18 +6,45 @@
 #include <complex.h>
 #include "beatdetect.h"
 
+#ifdef EXT_FFTW_MUTEX
+void fftw_planner_lock(int lock);
+#else
+#include <pthread.h>
+static pthread_mutex_t fftw_planner_mutex;
+static int use_lock = 0;
+void fftw_planner_use_lock() {
+	pthread_mutex_init(&fftw_planner_mutex, NULL);
+	use_lock = 1;
+}
+static void fftw_planner_lock(int lock) {
+	if (use_lock) {
+		if (lock) {
+			pthread_mutex_lock(&fftw_planner_mutex);
+		} else {
+			pthread_mutex_unlock(&fftw_planner_mutex);
+		}
+	}
+}
+#endif
 
 static inline double sqr(double a) {
 	return a * a;
 }
 
 beat_detector_t create_beat_detector(size_t n, int n_bands, int *bandlimits, int fs, int hannlen) {
+	fftw_planner_lock(1);
 	FFTW_REAL *x = FFTW_ALLOC_REAL(n);
 	FFTW_COMPLEX *y = FFTW_ALLOC_COMPLEX(n/2 + 1);
 	FFTW_COMPLEX *filterbank_freqs = FFTW_ALLOC_COMPLEX(n/2 + 1);
 	FFTW_COMPLEX *hann = FFTW_ALLOC_COMPLEX(n/2 + 1);
 	FFTW_PLAN fft_plan = FFTW_PLAN_dft_r2c_1d(n, x, y, FFTW_ESTIMATE); // TODO try FFTW_MEASURE
 	FFTW_PLAN ifft_plan = FFTW_PLAN_dft_c2r_1d(n, y, x, FFTW_ESTIMATE);
+	fftw_planner_lock(0);
+
+	if (!x || !y || !filterbank_freqs || !hann || !fft_plan || !ifft_plan) {
+		return (beat_detector_t) {0};
+	}
+
 	for (int i = 0; i < hannlen; ++i) {
 		x[i] = sqr(cos(M_PI * i / hannlen / 2));
 	}
@@ -40,6 +67,8 @@ beat_detector_t create_beat_detector(size_t n, int n_bands, int *bandlimits, int
 }
 
 void free_beat_detector_fields(beat_detector_t beat_detector) {
+	fftw_planner_lock(1);
+
 	FFTW_FREE(beat_detector.x);
 	FFTW_FREE(beat_detector.y);
 	FFTW_FREE(beat_detector.filterbank_freqs);
@@ -47,6 +76,8 @@ void free_beat_detector_fields(beat_detector_t beat_detector) {
 
 	FFTW_DESTROY_PLAN(beat_detector.fft_plan);
 	FFTW_DESTROY_PLAN(beat_detector.ifft_plan);
+
+	fftw_planner_lock(0);
 }
 
 beat_detector_multistage_t create_beat_detector_multistage(size_t d, size_t n, int n_bands, int *bandlimits, int fs, int hannlen) {

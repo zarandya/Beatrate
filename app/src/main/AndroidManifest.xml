@@ -120,8 +120,7 @@
             android:name="com.poupa.vinylmusicplayer.appshortcuts.AppShortcutLauncherActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name="io.github.zarandya.beatrate.ui.TargetRateSettingsActivity" />
-        
+        <activity android:name=".ui.TargetRateSettingsActivity" />
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
@@ -129,17 +128,15 @@
         <meta-data
             android:name="com.lge.support.SPLIT_WINDOW"
             android:value="true" />
-
         <meta-data
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc" />
-
         <meta-data
             android:name="com.google.android.gms.car.application.theme"
             android:resource="@style/CarTheme" />
         <meta-data
             android:name="com.google.android.gms.car.notification.SmallIcon"
-            android:resource="@drawable/ic_notification" /> <!-- Widgets -->
+            android:resource="@drawable/ic_notification" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}"
@@ -148,12 +145,13 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
+        </provider> <!-- Widgets -->
         <receiver android:name="com.poupa.vinylmusicplayer.service.MediaButtonIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
         <receiver android:name="com.poupa.vinylmusicplayer.appwidgets.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -184,7 +182,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_classic_info" />
         </receiver>
-
         <receiver
             android:name="com.poupa.vinylmusicplayer.appwidgets.AppWidgetSmall"
             android:exported="false"
@@ -196,7 +193,7 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_small_info" />
-        </receiver> <!-- Android Auto -->
+        </receiver>
         <receiver
             android:name="com.poupa.vinylmusicplayer.appwidgets.AppWidgetCard"
             android:exported="false"
@@ -208,11 +205,12 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_card_info" />
-        </receiver>
+        </receiver> <!-- Android Auto -->
 
         <service
             android:name=".BeatDetectionService"
             android:exported="false" />
+
         <service
             android:name="com.poupa.vinylmusicplayer.service.MusicService"
             android:enabled="true"
@@ -222,13 +220,13 @@
             </intent-filter>
         </service>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

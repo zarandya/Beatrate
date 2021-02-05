@@ -11,7 +11,12 @@ object BeatDetector {
             loadLibrary("mpg123")
             loadLibrary("native-lib")
         }
+
+        nativeInit()
     }
 
-    external fun detectBeat(filename: String): Double
+    private external fun nativeInit()
+    external fun createNativeStruct(): Long
+    external fun freeNativeStruct(nativePtr: Long)
+    external fun detectBeat(nativePtr: Long, filename: String): Double
 }

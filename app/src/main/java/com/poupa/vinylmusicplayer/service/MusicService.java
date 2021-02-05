@@ -68,6 +68,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.poupa.vinylmusicplayer.model.Song.BpmType.DETECTED;
+import static com.poupa.vinylmusicplayer.model.Song.BpmType.MANUAL;
+
 /**
  * @author Karim Abou Zeid (kabouzeid), Andrew Neal
  */
@@ -494,7 +497,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
     }
 
     private void setTargetSpeedForPlayback(Song song) {
-        if (isTargetBeatEnabled()) {
+        if (isTargetBeatEnabled() && (song.bpmType == DETECTED || song.bpmType == MANUAL)) {
             double targetBpm = targetBeat * (double) ((int) ((song.bpm + targetBeat / 2) / targetBeat));
             Log.d("BEATRATE", "target rate: "+targetBeat+" original bpm: "+song.bpm+" resulting bpm: "+targetBpm+" resulting speed: "+(targetBpm / song.bpm));
             playback.setSpeed(targetBpm / song.bpm);

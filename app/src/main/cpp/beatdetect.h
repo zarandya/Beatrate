@@ -49,6 +49,8 @@ typedef struct {
 	FFTW_REAL *xx;
 } beat_detector_multistage_t;
 
+void fftw_planner_use_lock();
+
 void free_beat_detector_fields(beat_detector_t beat_detector);
 
 beat_detector_t create_beat_detector(size_t n, int n_bands, int *bandlimits, int fs, int hannlen);

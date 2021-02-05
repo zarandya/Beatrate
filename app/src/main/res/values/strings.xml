@@ -359,6 +359,9 @@
     <string name="beatrate_change_target_rate_item_value_title">Target Rate:</string>
     <string name="label_beat">BPM: </string>
     <string name="toast_failed_to_detect_beat">Failed to detect BPM.</string>
+    <string name="beat_detect_notification_title">Detecting BPM</string>
+    <string name="beat_detection_channel_name">BPM Detection</string>
+    <string name="beat_detection_channel_description">Shows that beat detection is in process</string>
 
     <string-array name="bpm_types">
         <item>Invalid</item>
