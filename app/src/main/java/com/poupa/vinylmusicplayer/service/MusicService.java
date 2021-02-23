@@ -37,6 +37,8 @@ import androidx.media.MediaBrowserServiceCompat;
 
 import com.bumptech.glide.request.transition.Transition;
 import io.github.zarandya.beatrate.R;
+import io.github.zarandya.beatrate.debug.Logging;
+
 import com.poupa.vinylmusicplayer.appwidgets.AppWidgetBig;
 import com.poupa.vinylmusicplayer.appwidgets.AppWidgetCard;
 import com.poupa.vinylmusicplayer.appwidgets.AppWidgetClassic;
@@ -501,9 +503,11 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
             double targetBpm = targetBeat * (double) ((int) ((song.bpm + targetBeat / 2) / targetBeat));
             Log.d("BEATRATE", "target rate: "+targetBeat+" original bpm: "+song.bpm+" resulting bpm: "+targetBpm+" resulting speed: "+(targetBpm / song.bpm));
             playback.setSpeed(targetBpm / song.bpm);
+            Logging.INSTANCE.logMusicPlayerEvent(song, targetBeat, targetBpm);
         }
         else {
             playback.setSpeed(1.0);
+            Logging.INSTANCE.logMusicPlayerEvent(song, 0.0, song.bpm);
         }
     }
 
