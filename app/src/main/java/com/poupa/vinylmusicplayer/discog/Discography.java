@@ -195,8 +195,6 @@ public class Discography implements MusicServiceEventListener {
                 }
             } catch (NumberFormatException ignored) {}
 
-            getBpmFromFileTags(song);
-
             cache.addSong(song);
 
             if (!cacheOnly) {
@@ -210,23 +208,6 @@ public class Discography implements MusicServiceEventListener {
             }
 
             return true;
-        }
-    }
-
-    private void getBpmFromFileTags(@NonNull Song song) {
-        try {
-            final Tag audioFileTag = AudioFileIO.read(new File(song.data)).getTagOrCreateAndSetDefault();
-            final String bpmString = audioFileTag.getFirst(FieldKey.BPM);
-            final double bpm = Double.parseDouble(bpmString);
-            if (MIN_BPM <= bpm && bpm <= MAX_BPM) {
-                final String custom1 = audioFileTag.getFirst(FieldKey.CUSTOM1);
-                final Integer bpmType = getBpmTypeIfHasValidTagSignature(custom1, bpmString);
-                if (bpmType != null) {
-                    song.bpm = bpm;
-                    song.bpmType = bpmType;
-                }
-            }
-        } catch (Exception ignored) {
         }
     }
 

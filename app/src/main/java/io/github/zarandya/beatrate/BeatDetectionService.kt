@@ -1,8 +1,8 @@
 package io.github.zarandya.beatrate
 
-import android.app.Service
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -18,6 +18,10 @@ import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote.getPlayingQueue
 import com.poupa.vinylmusicplayer.helper.MusicPlayerRemote.getPosition
 import com.poupa.vinylmusicplayer.model.Song
 import com.poupa.vinylmusicplayer.model.Song.BpmType.INVALID
+import io.github.zarandya.beatrate.tags.getBpmTypeIfHasValidTagSignature
+import org.jaudiotagger.audio.AudioFileIO
+import org.jaudiotagger.tag.FieldKey
+import java.io.File
 
 private const val ACTION_ADD_SONG = "io.github.zarandya.beatrate.action.ADD_SONG"
 private const val ACTION_FINISHED = "io.github.zarandya.beatrate.action.FINISHED"
@@ -73,20 +77,49 @@ class BeatDetectionService : Service() {
         val discog = Discography.getInstance()
         val queue = getPlayingQueue()
         if (queue.isNotEmpty()) {
-            val song = synchronized(discog) {
-                queue.subList(getPosition(), queue.size)
-                        .find { it.bpmType == INVALID && it.id !in currentSongs }
-            }
+            val song = findSongWithInvalidBpmAndTags(queue.subList(getPosition(), queue.size), currentSongs)
             if (song != null) {
                 return song
             }
         }
 
-        synchronized(discog) {
-            return discog.allSongs
-                    .find { it.bpmType == INVALID && it.id !in currentSongs }
+        return findSongWithInvalidBpmAndTags(discog.allSongs, currentSongs)
+    }
+    
+    private fun findSongWithInvalidBpmAndTags(songs: Collection<Song>, excludeIds: List<Long>): Song? {
+        synchronized(Discography.getInstance()) {
+            while (true) {
+                val song = songs.find { it.bpmType == INVALID && it.id !in excludeIds }
+                        ?: return null
+
+                getBpmFromFileTags(song)
+
+                if (song.bpmType != INVALID)
+                    updateSongInDatabase(song)
+                else
+                    return song
+            }
+        }
+
+    }
+
+    private fun getBpmFromFileTags(song: Song) {
+        try {
+            val audioFileTag = AudioFileIO.read(File(song.data)).tagOrCreateAndSetDefault
+            val bpmString = audioFileTag.getFirst(FieldKey.BPM)
+            val bpm = bpmString.toDouble()
+            if (bpm in MIN_BPM..MAX_BPM) {
+                val custom1 = audioFileTag.getFirst(FieldKey.CUSTOM1)
+                val bpmType = getBpmTypeIfHasValidTagSignature(custom1, bpmString)
+                if (bpmType != null) {
+                    song.bpm = bpm
+                    song.bpmType = bpmType
+                }
+            }
+        } catch (ignored: Exception) {
         }
     }
+
 
     private fun sendNextSongOnList() {
         synchronized(threads) {
@@ -138,7 +171,7 @@ class BeatDetectionService : Service() {
 
         val titles = threads.joinToString(";\n") { it.song.title }
 
-        var builder = NotificationCompat.Builder(this, CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_library_music_white_24dp) // TODO create proper icon
                 .setContentTitle(getString(R.string.beat_detect_notification_title))
                 .setContentText(titles)
@@ -147,7 +180,22 @@ class BeatDetectionService : Service() {
 
         startForeground(NOTIFICATION_ID, builder.build())
     }
-    
+
+    private fun updateSongInDatabase(song: Song) {
+        with(Discography.getInstance()) {
+            synchronized(this@with) {
+                removeSongById(song.id)
+                addSong(song)
+                // TODO notify playing queue changed? Also, does this need locking?
+                getPlayingQueue().find { it.id == song.id }
+                        ?.also {
+                            it.bpm = song.bpm
+                            it.bpmType = song.bpmType
+                        }
+            }
+        }
+    }
+
     private val threads = HashSet<BeatDetectionThread>()
     
     private inner class BeatDetectionThread(song: Song, val loop: Boolean): Thread() {
@@ -172,18 +220,7 @@ class BeatDetectionService : Service() {
                         d("BEAT_DETECTION_SERVICE", "Failed to detect bpm: ${song.data}")
                     }
 
-                    with(Discography.getInstance()) {
-                        synchronized(this@with) {
-                            removeSongById(song.id)
-                            addSong(song)
-                            // TODO notify playing queue changed? Also, does this need locking?
-                            getPlayingQueue().find { it.id == song.id }
-                                    ?.also {
-                                        it.bpm = song.bpm
-                                        it.bpmType = song.bpmType
-                                    }
-                        }
-                    }
+                    updateSongInDatabase(song)
 
                     LocalBroadcastManager.getInstance(this@BeatDetectionService).sendBroadcast(
                             Intent(DETECTION_FINISHED)
@@ -211,7 +248,7 @@ class BeatDetectionService : Service() {
             }
         }
     }
-    
+
     companion object {
 
         @JvmStatic
