@@ -65,6 +65,10 @@ public class PlaylistSongLoader {
                 song.albumName,
                 song.artistId,
                 song.artistName,
+                song.discNumber,
+                song.genre,
+                song.bpm,
+                song.bpmType,
                 playlistId,
                 idInPlaylist);
         return playlistSong;

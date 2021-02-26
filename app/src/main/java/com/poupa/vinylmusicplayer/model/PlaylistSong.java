@@ -2,14 +2,20 @@ package com.poupa.vinylmusicplayer.model;
 
 import android.os.Parcel;
 
+import static com.poupa.vinylmusicplayer.model.Song.BpmType.DISABLED;
+
 public class PlaylistSong extends Song {
-    public static final PlaylistSong EMPTY_PLAYLIST_SONG = new PlaylistSong(-1, "", -1, -1, -1, "", -1, -1, -1, "", -1, "", -1, -1);
+    public static final PlaylistSong EMPTY_PLAYLIST_SONG = new PlaylistSong(-1, "", -1, -1, -1, "", -1, -1, -1, "", -1, "", 0, "", 0.0, DISABLED, -1, -1);
 
     public final long playlistId;
     public final long idInPlayList;
 
-    public PlaylistSong(long id, String title, int trackNumber, int year, long duration, String data, int dateAdded, int dateModified, long albumId, String albumName, long artistId, String artistName, final long playlistId, final long idInPlayList) {
+    public PlaylistSong(long id, String title, int trackNumber, int year, long duration, String data, int dateAdded, int dateModified, long albumId, String albumName, long artistId, String artistName, int discNumber, String genre, double bpm, int bpmType, final long playlistId, final long idInPlayList) {
         super(id, title, trackNumber, year, duration, data, dateAdded, dateModified, albumId, albumName, artistId, artistName);
+        this.discNumber = discNumber;
+        this.genre = genre;
+        this.bpm = bpm;
+        this.bpmType = bpmType;
         this.playlistId = playlistId;
         this.idInPlayList = idInPlayList;
     }
