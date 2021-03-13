@@ -66,7 +66,7 @@ class TargetRateSettingsAdapter(
             holder.dragView?.visibility = GONE
             holder.title?.visibility = GONE
             holder.delete?.visibility = GONE
-            holder.edit?.setImageResource(R.drawable.ic_library_add_white_24dp) // should have generic add icon
+            holder.edit?.setImageResource(android.R.drawable.ic_menu_add)
             val layout = holder.edit?.layoutParams
             layout?.width = MATCH_PARENT
             holder.edit?.layoutParams = layout

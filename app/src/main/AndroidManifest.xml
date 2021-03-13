@@ -12,7 +12,7 @@
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.VinylMusicPlayer.Black"
+        android:theme="@style/Theme.VinylMusicPlayer.Light"
         tools:ignore="UnusedAttribute">
         <activity
             android:name="com.poupa.vinylmusicplayer.ui.activities.MainActivity"

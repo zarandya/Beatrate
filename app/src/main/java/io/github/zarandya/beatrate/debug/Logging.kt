@@ -24,7 +24,7 @@ object Logging {
         thread { synchronized(outputStream) {
             val timestampStr = df.format(timestamp)
             val entry = EventEntry(timestampStr, song.data, song.title, song.artistName, song.bpm, song.bpmType, targetRate, targetBpm)
-            outputStream.append(gson.toJson(entry))
+            outputStream.append(gson.toJson(entry) + "\n")
             outputStream.flush()
         } }
     }

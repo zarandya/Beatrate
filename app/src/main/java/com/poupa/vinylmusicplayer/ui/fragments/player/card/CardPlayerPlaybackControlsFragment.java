@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -33,7 +34,6 @@ import com.poupa.vinylmusicplayer.util.PreferenceUtil;
 import com.poupa.vinylmusicplayer.views.PlayPauseDrawable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,6 +75,8 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
 
     private MusicProgressViewUpdateHelper progressViewUpdateHelper;
 
+    private ArrayList<Object> targetRateItems = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +106,7 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
     public void onResume() {
         super.onResume();
         progressViewUpdateHelper.start();
+        updateAdapterItems();
     }
 
     @Override
@@ -244,13 +247,20 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
     private static final String BEATRATE_DISABLED = "OFF";
     private static final String BEATRATE_EDIT_TARGETS = "EDIT";
 
+    private void updateAdapterItems() {
+        targetRateItems.clear();
+        targetRateItems.addAll(PreferenceUtil.getInstance().getTargetRates());
+        targetRateItems.add(0, BEATRATE_DISABLED);
+        targetRateItems.add(BEATRATE_EDIT_TARGETS);
+        final Adapter adapter = targetRateSpinner.getAdapter();
+        if (adapter instanceof ArrayAdapter)
+            ((ArrayAdapter<?>) adapter).notifyDataSetChanged();
+    }
+
     private void setUpTargetBeatButton() {
-        // TODO
-        ArrayList<Object> items = new ArrayList<>(PreferenceUtil.getInstance().getTargetRates());
-        items.add(0, BEATRATE_DISABLED);
-        items.add(BEATRATE_EDIT_TARGETS);
-        ArrayAdapter adapter = new ArrayAdapter<Object>(getContext(), android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<Object> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, targetRateItems);
         targetRateSpinner.setAdapter(adapter);
+        updateAdapterItems();
         targetRateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

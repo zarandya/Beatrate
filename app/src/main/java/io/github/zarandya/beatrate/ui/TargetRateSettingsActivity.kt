@@ -1,6 +1,7 @@
 package io.github.zarandya.beatrate.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -39,7 +40,7 @@ class TargetRateSettingsActivity: AbsBaseActivity() {
         setNavigationbarColorAuto()
         setTaskDescriptionColorAuto()
 
-        ViewUtil.setUpFastScrollRecyclerViewColor(this, recyclerView as FastScrollRecyclerView?, ThemeStore.accentColor(this))
+        ViewUtil.setUpFastScrollRecyclerViewColor(this, recyclerView, ThemeStore.accentColor(this))
         recyclerView!!.layoutManager = LinearLayoutManager(this)
         
         val adapter = TargetRateSettingsAdapter(this)
@@ -57,6 +58,7 @@ class TargetRateSettingsActivity: AbsBaseActivity() {
         toolbar!!.setBackgroundColor(ThemeStore.primaryColor(this))
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.title = null
         titleTextView!!.text = getString(R.string.beatrate_target_rate_settings_activity_title)
         titleTextView!!.setTextColor(MaterialValueHelper.getPrimaryTextColor(this, ColorUtil.isColorLight(ThemeStore.primaryColor(this))))
@@ -78,5 +80,10 @@ class TargetRateSettingsActivity: AbsBaseActivity() {
         wrappedAdapter = null
 
         super.onDestroy()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }
