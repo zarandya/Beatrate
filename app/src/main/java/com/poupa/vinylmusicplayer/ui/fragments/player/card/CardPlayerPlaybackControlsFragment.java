@@ -34,6 +34,8 @@ import com.poupa.vinylmusicplayer.util.PreferenceUtil;
 import com.poupa.vinylmusicplayer.views.PlayPauseDrawable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +77,7 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
 
     private MusicProgressViewUpdateHelper progressViewUpdateHelper;
 
-    private ArrayList<Object> targetRateItems = new ArrayList<>();
+    private ArrayList<Object> targetRateItems = new ArrayList<Object>(Arrays.asList(MusicPlayerRemote.getTargetBeat()));
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,6 +122,7 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
         updatePlayPauseDrawableState(false);
         updateRepeatState();
         updateShuffleState();
+        updateAdapterItems();
     }
 
     @Override
@@ -248,13 +251,21 @@ public class CardPlayerPlaybackControlsFragment extends AbsMusicServiceFragment 
     private static final String BEATRATE_EDIT_TARGETS = "EDIT";
 
     private void updateAdapterItems() {
+        final double curTargetBeat = MusicPlayerRemote.getTargetBeat();
         targetRateItems.clear();
+        targetRateItems.add(BEATRATE_DISABLED);
         targetRateItems.addAll(PreferenceUtil.getInstance().getTargetRates());
-        targetRateItems.add(0, BEATRATE_DISABLED);
+        int index = curTargetBeat == 0.0 ? 0 : targetRateItems.indexOf(MusicPlayerRemote.getTargetBeat());
+        if (index == -1) {
+            index = targetRateItems.size();
+            targetRateItems.add(curTargetBeat);
+        }
         targetRateItems.add(BEATRATE_EDIT_TARGETS);
         final Adapter adapter = targetRateSpinner.getAdapter();
-        if (adapter instanceof ArrayAdapter)
+        if (adapter instanceof ArrayAdapter) {
             ((ArrayAdapter<?>) adapter).notifyDataSetChanged();
+            targetRateSpinner.setSelection(index);
+        }
     }
 
     private void setUpTargetBeatButton() {

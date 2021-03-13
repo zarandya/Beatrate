@@ -506,6 +506,7 @@ public class MusicService extends MediaBrowserServiceCompat implements SharedPre
             Logging.INSTANCE.logMusicPlayerEvent(song, targetBeat, targetBpm);
         }
         else {
+            Log.d("BEATRATE", "target rate: OFF original bpm: "+song.bpm+" resulting bpm: "+song.bpm+" resulting speed: 1");
             playback.setSpeed(1.0);
             Logging.INSTANCE.logMusicPlayerEvent(song, 0.0, song.bpm);
         }
